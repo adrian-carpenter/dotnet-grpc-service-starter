@@ -1,5 +1,5 @@
 using Grpc.Core;
-using GrpcGreeterRpc;
+using GreeterRpc;
 
 namespace GrpcWebServiceStarter.Services;
 
@@ -14,17 +14,15 @@ public class GreeterService : Greeter.GreeterBase
 
     public override Task<HelloReply> SayHello(HelloRequest request, ServerCallContext context)
     {
-        return Task.FromResult(new HelloReply
-        {
-            Message = "Hello " + request.Name
-        });
+        var helloReply = new HelloReply { Message = "Hello " + request.Name };
+        return Task.FromResult(helloReply);
     }
 
     public override Task<HelloReply> SayHelloFrom(HelloRequestFrom requestFrom, ServerCallContext context)
     {
         return Task.FromResult(new HelloReply
         {
-            Message = "Post Hello" + requestFrom.Name + "From" + requestFrom.From
+            Message = "Post Hello" + requestFrom.Name + "From " + requestFrom.From
         });
     }
 }

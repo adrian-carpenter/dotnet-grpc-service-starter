@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "GrpcGreeterRpc";
+option csharp_namespace = "GreeterRpc";
 
 import "google/api/annotations.proto";
 
@@ -11,12 +11,12 @@ service Greeter {
   // Sends a greeting
   rpc SayHello (HelloRequest) returns (HelloReply) {
     option (google.api.http) = {
-      get: "/v1/greeter/{name}"
+      get: "/api/greeter/{name}"
     };
   };
   rpc SayHelloFrom (HelloRequestFrom) returns (HelloReply) {
     option (google.api.http) = {
-      post: "/v1/greeter",
+      post: "/api/greeter",
       body: "*"
     };
   }

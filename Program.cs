@@ -6,16 +6,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Additional configuration is required to successfully run gRPC on macOS.
 // For instructions on how to configure Kestrel and gRPC clients on macOS, visit https://go.microsoft.com/fwlink/?linkid=2099682
 
-// Add services to the container.
-builder.Services.AddGrpc();
-
-// Add RESTful Support with Endpoint Annotation
-builder.Services.AddGrpcHttpApi();
+// Add services to the container
+// Add JSON Transcoding REST Gateway
+builder.Services.AddGrpc().AddJsonTranscoding();
 
 // Add Swashbuckle Swagger Gen
 builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "My Api", Version = "v1" }); });
 
-// Add Grpc Swagger Implemenation
+// Add Grpc Swagger Implementation
 builder.Services.AddGrpcSwagger();
 
 // Add Cors for Grpc Web
@@ -44,15 +42,13 @@ app.UseSwaggerUI(o =>
 
 // This Allows Grpc Annotation to Restful Paths
 app.UseRouting();
-// Add Grpc Web Support for Browsers
-app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true});
+
+// Add Grpc Web Support for Browsers if Needed
+// app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true});
+
 // Enable CORS
 app.UseCors();
 
 // Configure the HTTP request pipeline.
-app.MapGrpcService<GreeterService>().EnableGrpcWeb().RequireCors("AllowAll");
-app.MapGet("/",
-    () =>
-        "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
-
+app.MapGrpcService<GreeterService>().RequireCors("AllowAll");
 app.Run();
