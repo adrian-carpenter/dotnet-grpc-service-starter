@@ -44,11 +44,11 @@ app.UseSwaggerUI(o =>
 app.UseRouting();
 
 // Add Grpc Web Support for Browsers if Needed
-// app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true});
+app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true});
 
 // Enable CORS
 app.UseCors();
 
 // Configure the HTTP request pipeline.
-app.MapGrpcService<GreeterService>().RequireCors("AllowAll");
+app.MapGrpcService<GreeterService>().EnableGrpcWeb().RequireCors("AllowAll");
 app.Run();
